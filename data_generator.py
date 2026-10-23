@@ -8,7 +8,7 @@ Faker.seed(42)
 random.seed(42)
 
 
-def generate_directors(num=30):
+def generate_directors(num=1000):
     directors = []
     for i in range(1, num + 1):
         directors.append({
@@ -20,7 +20,7 @@ def generate_directors(num=30):
     return pd.DataFrame(directors)
 
 
-def generate_movies(directors_df, num=100):
+def generate_movies(directors_df, num=10000):
     movies = []
     director_ids = directors_df['director_id'].tolist()
     for i in range(1, num + 1):
@@ -35,7 +35,7 @@ def generate_movies(directors_df, num=100):
     return pd.DataFrame(movies)
 
 
-def generate_subscribers(num=1000):
+def generate_subscribers(num=50000):
     subscribers = []
     for i in range(1, num + 1):
         email = fake.email() if random.random() > 0.1 else None  # 10% пропущених email
@@ -49,7 +49,7 @@ def generate_subscribers(num=1000):
     return pd.DataFrame(subscribers)
 
 
-def generate_views(subscribers_df, movies_df, num=5000):
+def generate_views(subscribers_df, movies_df, num=500000):
     views = []
     subscriber_ids = subscribers_df['subscriber_id'].tolist()
     movie_ids = movies_df['movie_id'].tolist()
@@ -64,7 +64,7 @@ def generate_views(subscribers_df, movies_df, num=5000):
     return pd.DataFrame(views)
 
 
-def generate_ratings(subscribers_df, movies_df, num=1500):
+def generate_ratings(subscribers_df, movies_df, num=150000):
     ratings = []
     subscriber_ids = subscribers_df['subscriber_id'].tolist()
     movie_ids = movies_df['movie_id'].tolist()
@@ -99,19 +99,19 @@ def load_data_to_dwh():
         conn.commit()
 
     print("Завантаження directors...")
-    df_directors.to_sql('directors', engine, schema='raw', if_exists='replace', index=False)
+    df_directors.to_sql('directors', engine, schema='raw', if_exists='replace', index=False, chunksize=10000)
 
     print("Завантаження movies...")
-    df_movies.to_sql('movies', engine, schema='raw', if_exists='replace', index=False)
+    df_movies.to_sql('movies', engine, schema='raw', if_exists='replace', index=False, chunksize=10000)
 
     print("Завантаження subscribers...")
-    df_subscribers.to_sql('subscribers', engine, schema='raw', if_exists='replace', index=False)
+    df_subscribers.to_sql('subscribers', engine, schema='raw', if_exists='replace', index=False, chunksize=10000)
 
     print("Завантаження views...")
-    df_views.to_sql('views', engine, schema='raw', if_exists='replace', index=False)
+    df_views.to_sql('views', engine, schema='raw', if_exists='replace', index=False, chunksize=10000)
 
     print("Завантаження ratings...")
-    df_ratings.to_sql('ratings', engine, schema='raw', if_exists='replace', index=False)
+    df_ratings.to_sql('ratings', engine, schema='raw', if_exists='replace', index=False, chunksize=10000)
 
     print("Дані успішно завантажені у схему 'raw'!")
 
