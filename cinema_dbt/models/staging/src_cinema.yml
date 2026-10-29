@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw_cinema
+    schema: raw
+    tables:
+      - name: subscribers
+      - name: movies
+      - name: directors
+      - name: views
+      - name: ratings

@@ -1,0 +1,13 @@
+cinema_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: admin
+      password: adminpassword
+      port: 5432
+      dbname: cinema_dwh
+      schema: analytics # Схема, куди dbt буде записувати готові моделі
+      threads: 4
+      keepalives_idle: 0
