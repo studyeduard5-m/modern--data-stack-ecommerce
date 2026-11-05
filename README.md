@@ -83,6 +83,8 @@ SELECT COUNT(*) FROM raw.subscribers WHERE email IS NULL;
 SELECT COUNT(*) FROM raw.ratings WHERE comment IS NULL;
 ```
 
+![Airflow Graph](docs/airflow_graph.png)
+
 ## Повторний запуск
 
 Скрипт використовує `if_exists='replace'`. Ви можете безпечно запустити скрипт повторно. Скрипт замінює старі таблиці новими.

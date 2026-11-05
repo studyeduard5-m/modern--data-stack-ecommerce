@@ -3,3 +3,7 @@ logs/
 __pycache__/
 cinema_dbt/target/
 cinema_dbt/logs/
+airflow/airflow.cfg
+airflow/airflow.db
+airflow/logs/
+airflow/webserver_config.py

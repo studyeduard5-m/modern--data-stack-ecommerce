@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: stg_subscribers
+    columns:
+      - name: subscriber_id
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        data_tests:
+          - not_null
+
+  - name: stg_movies
+    columns:
+      - name: movie_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_directors
+    columns:
+      - name: director_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_views
+    columns:
+      - name: view_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_ratings
+    columns:
+      - name: rating_id
+        data_tests:
+          - unique
+          - not_null
+      - name: rating
+        data_tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+              quote: false
