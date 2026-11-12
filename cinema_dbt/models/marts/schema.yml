@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: dim_subscribers
+    description: "Вимір підписників онлайн-кінотеатру: хто дивиться контент."
+    columns:
+      - name: subscriber_id
+        description: "Унікальний ідентифікатор підписника"
+        data_tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: "Повне ім'я підписника"
+      - name: email
+        description: "Email підписника. Порожні значення замінено на unknown@example.com"
+      - name: plan
+        description: "Тарифний план: Basic, Standard або Premium"
+      - name: registration_date
+        description: "Дата реєстрації підписника"
+
+  - name: dim_directors
+    description: "Вимір режисерів."
+    columns:
+      - name: director_id
+        description: "Унікальний ідентифікатор режисера"
+        data_tests:
+          - unique
+          - not_null
+      - name: director_name
+        description: "Ім'я режисера"
+      - name: country
+        description: "Країна режисера"
+      - name: birth_year
+        description: "Рік народження режисера"
+
+  - name: dim_movies
+    description: "Вимір фільмів разом з ім'ям режисера."
+    columns:
+      - name: movie_id
+        description: "Унікальний ідентифікатор фільму"
+        data_tests:
+          - unique
+          - not_null
+      - name: title
+        description: "Назва фільму"
+      - name: genre
+        description: "Жанр фільму"
+      - name: release_year
+        description: "Рік випуску"
+      - name: duration_min
+        description: "Тривалість фільму в хвилинах"
+      - name: director_id
+        description: "Ідентифікатор режисера"
+      - name: director_name
+        description: "Ім'я режисера"
+
+  - name: fct_views
+    description: "Таблиця фактів. Кожен рядок описує один перегляд фільму підписником."
+    columns:
+      - name: view_id
+        description: "Унікальний ідентифікатор перегляду"
+        data_tests:
+          - unique
+          - not_null
+      - name: subscriber_id
+        description: "Ключ підписника"
+        data_tests:
+          - relationships:
+              to: ref('dim_subscribers')
+              field: subscriber_id
+      - name: movie_id
+        description: "Ключ фільму"
+        data_tests:
+          - relationships:
+              to: ref('dim_movies')
+              field: movie_id
+      - name: watch_duration_min
+        description: "Скільки хвилин підписник дивився фільм"
+      - name: duration_min
+        description: "Тривалість фільму в хвилинах"
+      - name: watch_percent
+        description: "Відсоток перегляду фільму. Максимальне значення дорівнює 100"
+      - name: viewed_at
+        description: "Дата і час перегляду"
+
+  - name: fct_ratings
+    description: "Таблиця фактів. Кожен рядок описує одну оцінку фільму підписником."
+    columns:
+      - name: rating_id
+        description: "Унікальний ідентифікатор оцінки"
+        data_tests:
+          - unique
+          - not_null
+      - name: subscriber_id
+        description: "Ключ підписника"
+        data_tests:
+          - relationships:
+              to: ref('dim_subscribers')
+              field: subscriber_id
+      - name: movie_id
+        description: "Ключ фільму"
+        data_tests:
+          - relationships:
+              to: ref('dim_movies')
+              field: movie_id
+      - name: rating
+        description: "Оцінка від 1 до 5"
+      - name: comment
+        description: "Коментар. Порожні значення замінено на no comment"
