@@ -89,7 +89,7 @@ SELECT COUNT(*) FROM raw.ratings WHERE comment IS NULL;
 
 ![Дашборд](docs/dashboard.png)
 
-![Data Lineage](docs/хід%20роботи%204%20крок%20lineage%20graph%20fct%20views.png)
+![Data Lineage](docs/lineage.png)
 
 ## Повторний запуск
 
